@@ -27,7 +27,7 @@
 
 %-------------------------------------------------------------------------
 connection_string() ->
-  "DSN=sql-server;UID=odbctest;PWD=gurka".
+  "DSN=sql-server;UID=sa;PWD=The_Password".
 
 %-------------------------------------------------------------------------
 insert_result() ->
@@ -110,7 +110,7 @@ create_fixed_char_table(Size) ->
 var_char_min() ->
     1.
 var_char_max() ->
-    8000. 
+    8000.
 
 create_var_char_table(Size) ->
     " (FIELD varchar(" ++ integer_to_list(Size) ++ "))".
@@ -118,14 +118,14 @@ create_var_char_table(Size) ->
 text_min() ->
     1.
 text_max() ->
-    2147483647. %% 2^31 - 1 
+    2147483647. %% 2^31 - 1
 
 create_text_table() ->
     " (FIELD text)".
 
 %-------------------------------------------------------------------------
 create_timestamp_table() ->
-    " (FIELD DATETIME)". 
+    " (FIELD DATETIME)".
 
 %-------------------------------------------------------------------------
 tiny_int_min() ->
@@ -179,7 +179,7 @@ big_int_max() ->
     9223372036854775807. % 2^63-1
 
 create_big_int_table() ->
-     " (FIELD bigint)". 
+     " (FIELD bigint)".
 
 big_int_min_selected() ->
     {selected,["FIELD"],[{integer_to_list(big_int_min())}]}.
@@ -280,7 +280,7 @@ describe_integer() ->
 	 {"myint3", sql_integer}]}.
 
 describe_string() ->
-    {ok,[{"str1",{sql_char,10}},                           
+    {ok,[{"str1",{sql_char,10}},
 	 {"str2",{sql_char,10}},
 	 {"str3",{sql_varchar,10}},
 	 {"str4",{sql_varchar,10}}]}.
