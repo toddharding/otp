@@ -27,7 +27,7 @@
 
 %-------------------------------------------------------------------------
 connection_string() ->
-  "DSN=sql-server;UID=sa;PWD=The_Password".
+  "DSN=sqlserver;UID=sa;PWD=The_Password".
 
 %-------------------------------------------------------------------------
 insert_result() ->
@@ -127,6 +127,9 @@ create_text_table() ->
 create_timestamp_table() ->
     " (FIELD DATETIME)".
 
+%-------------------------------------------------------------------------
+create_datetime_offset_table() ->
+  " (FIELD DATETIMEOFFSET)".
 %-------------------------------------------------------------------------
 tiny_int_min() ->
     0.

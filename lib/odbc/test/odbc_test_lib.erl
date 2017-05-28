@@ -28,10 +28,10 @@
 -include("odbc_test.hrl").
 -include_lib("common_test/include/ct.hrl").
 
-unique_table_name() ->                              
+unique_table_name() ->
     lists:reverse(lists:foldl(fun($@, Acc) -> [$t, $A |Acc] ;
 				 ($-,Acc) -> Acc;
-				 (X, Acc) -> [X |Acc] end, 
+				 (X, Acc) -> [X |Acc] end,
 			      [], atom_to_list(node()))).
 
 match_float(Float, Match, Delta) ->
@@ -39,10 +39,6 @@ match_float(Float, Match, Delta) ->
 
 odbc_check() ->
     case os:type() of
-	{unix,darwin} ->
-	    lists:flatten(
-	      io_lib:format("Currently we have no working drivers for MAC",
-			    []));
 	_ ->
 	    case erlang:system_info({wordsize, external}) of
 		4 ->
@@ -51,6 +47,8 @@ odbc_check() ->
 		    case os:type() of
 			{unix, linux} ->
 			    ok;
+      {unix,darwin} ->
+          ok;
 			Platform ->
 			    lists:flatten(
 			      io_lib:format("Word on platform ~w size"
@@ -61,14 +59,14 @@ odbc_check() ->
     end.
 
 check_row_count(Count, Count) ->
-    ct:pal("Correct row count Count: ~p~n", [Count]),   
+    ct:pal("Correct row count Count: ~p~n", [Count]),
     true;
 check_row_count(_, undefined) ->
-    ct:pal("Undefined row count ~n", []),  
+    ct:pal("Undefined row count ~n", []),
     true;
 check_row_count(Expected, Count) ->
     ct:pal("Incorrect row count Expected ~p Got ~p~n",
-		       [Expected, Count]),   
+		       [Expected, Count]),
     false.
 
 to_upper(List) ->

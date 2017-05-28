@@ -92,20 +92,20 @@ end_per_testcase(_TestCase, _Config) ->
 %%--------------------------------------------------------------------
 %% Function: all(Clause) -> TestCases
 %% Clause - atom() - suite | doc
-%% TestCases - [Case] 
+%% TestCases - [Case]
 %% Case - atom()
 %%   Name of a test case.
 %% Description: Returns a list of all test cases in this test suite
 %%--------------------------------------------------------------------
 suite() -> [{ct_hooks,[ts_install_cth]}].
 
-all() -> 
+all() ->
     case odbc_test_lib:odbc_check() of
 	ok -> [app, appup, start, long_connection_line];
 	_Other -> [app, appup]
     end.
 
-groups() -> 
+groups() ->
     [].
 
 init_per_group(_GroupName, Config) ->
@@ -127,10 +127,13 @@ app(Config) when is_list(Config) ->
 appup(Config) when is_list(Config) ->
     ok = ?t:appup_test(odbc).
 
-start() -> 
+start() ->
     [{doc,"Test start/stop of odbc"}].
-start(Config) when is_list(Config) -> 
+start(Config) when is_list(Config) ->
     PlatformOptions = odbc_test_lib:platform_options(),
+    io:put_chars("\nHERE\n"),
+    io:put_chars(?RDBMS:connection_string()),
+    io:put_chars("\nEND HERE"),
 	{error,odbc_not_started} = odbc:connect(?RDBMS:connection_string(),
 					    PlatformOptions),
     odbc:start(),
@@ -138,7 +141,7 @@ start(Config) when is_list(Config) ->
 	{ok, Ref0} ->
 	    ok = odbc:disconnect(Ref0),
 	    odbc:stop(),
-	    {error,odbc_not_started} = 
+	    {error,odbc_not_started} =
 		odbc:connect(?RDBMS:connection_string(), PlatformOptions),
 	    start_odbc(transient),
 	    start_odbc(permanent);
@@ -148,7 +151,7 @@ start(Config) when is_list(Config) ->
 	    ct:pal("Connection failed: ~p~n", [Error]),
 	    {skip, "ODBC is not properly setup"}
     end.
-    
+
 start_odbc(Type) ->
     ok = odbc:start(Type),
     case odbc:connect(?RDBMS:connection_string(), odbc_test_lib:platform_options()) of

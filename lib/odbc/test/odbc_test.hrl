@@ -18,7 +18,7 @@
 %% %CopyrightEnd%
 %%
 
- 
+
 % Default timetrap timeout (set in init_per_testcase).
 % This should be set relatively high (10-15 times the expected
 % max testcasetime).
@@ -26,20 +26,18 @@
 
 -define(RDBMS, case os:type() of
 		   {unix, sunos} ->
-		       mysql;
+		       sqlserver;
 		   {unix,linux} ->
 		       case  erlang:system_info({wordsize, external}) of
 			   4 ->
-			       mysql;
+			       sqlserver;
 			   _ ->
-			       postgres
+			       sqlserver
 		       end;
 		   {unix, darwin} ->
-		       mysql;
+		       sqlserver;
 		   {win32, _} ->
 		       sqlserver
 	       end).
 
 -define(TIMEOUT, 100000).
-
-
